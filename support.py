@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 
 def do_pca(data, components, typ):
     pca = PCA(n_components = components)
-    pca.fit(data,data)
+    pca.fit(data)
     X = pca.transform(data)
     df_pca = pd.DataFrame(data=X, columns=['comp'+str(i) for i in range(components)])
     df_pca['type'] = typ
@@ -54,7 +54,7 @@ def Isomap(D,knn,d,typ):
     graph = graph_shortest_path(D_knn, directed=False)
 
     return mds(graph,d,typ)
-
+# compute the reconstruction error of the distance matrix
 def rec_error(D, D_fit, Isomap=0):
     n,_ = D.shape
     if Isomap:
@@ -90,6 +90,7 @@ def compare_local(D,D_low,k):
     erg = sum(C)/n
     return erg
 
+# do svm on the data and return score to check the seperability
 def seperability(C, data):
     temp_df = data.copy()
     y = temp_df['type']
